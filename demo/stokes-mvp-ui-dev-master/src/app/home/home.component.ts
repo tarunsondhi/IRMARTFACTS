@@ -633,15 +633,15 @@ export class HomeComponent implements OnInit {
   setTabStyling() {
     if (this.activeTab == "1") {
       $("#tab1").css({"background-color": "#d3d3d3", "color": "#000000"});
-      $("#tab2").css({"background-color": "#FF3A00", "color": "#FFFFFF"});
-      $("#tab3").css({"background-color": "#FF3A00", "color": "#FFFFFF"});
+      $("#tab2").css({"background-color": "#F37F19", "color": "#FFFFFF"});
+      $("#tab3").css({"background-color": "#F37F19", "color": "#FFFFFF"});
     } else if (this.activeTab == "2") {
-      $("#tab1").css({"background-color": "#FF3A00", "color": "#FFFFFF"});
+      $("#tab1").css({"background-color": "#F37F19", "color": "#FFFFFF"});
       $("#tab2").css({"background-color": "#d3d3d3", "color": "#000000"});
-      $("#tab3").css({"background-color": "#FF3A00", "color": "#FFFFFF"});
+      $("#tab3").css({"background-color": "#F37F19", "color": "#FFFFFF"});
     } else if (this.activeTab == "3") {
-      $("#tab1").css({"background-color": "#FF3A00", "color": "#FFFFFF"});
-      $("#tab2").css({"background-color": "#FF3A00", "color": "#FFFFFF"});
+      $("#tab1").css({"background-color": "#F37F19", "color": "#FFFFFF"});
+      $("#tab2").css({"background-color": "#F37F19", "color": "#FFFFFF"});
       $("#tab3").css({"background-color": "#d3d3d3", "color": "#000000"});
     }
   }
