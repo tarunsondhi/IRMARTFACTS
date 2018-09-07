@@ -104,7 +104,7 @@ input {
 .custom-btn {
   width: 200px;
   border-radius: 5px;
-  background-color: #FF3A00;
+  background-color: #F37F19;
   margin-left: 60px;
   border-style: none;
   color: #ffffff;
@@ -126,7 +126,7 @@ input {
 }
 
 .x-btn {
-  background-color: #FF3A00;
+  background-color: #F37F19;
   border-radius: 5px;
   color: #ffffff;
 }
@@ -170,7 +170,7 @@ input {
 }
 
 .interested-btn {
-  background-color: #FF3A00;
+  background-color: #F37F19;
   color: #ffffff;
   padding: 10px 20px 10px 20px;
   cursor: pointer;
@@ -327,7 +327,7 @@ input {
 }
 
 .addArtBtn {
-  background-color: #FF3A00;
+  background-color: #F37F19;
   color: #ffffff;
   /*padding: 10px 20px 10px 20px;*/
   cursor: pointer;
@@ -335,7 +335,7 @@ input {
 }
 
 .outerCircle {
-  background: #FF3A00;
+  background: #F37F19;
   border-radius: 50%;
   height: 40px;
   width: 40px;
@@ -355,7 +355,7 @@ input {
 
 .activeInnerCircle {
   position: absolute;
-  background: #FF3A00;
+  background: #F37F19;
   border-radius: 50%;
   height: 26px;
   width: 26px;
@@ -366,7 +366,7 @@ input {
 
 .line {
   position: absolute;
-  background: #FF3A00;
+  background: #F37F19;
   height: 3px;
   width: 100px;
   top: 50%;
