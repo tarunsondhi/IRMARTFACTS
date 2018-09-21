@@ -29,7 +29,8 @@ export class CrudService {
     this.spinner.show();
     return this.http.post(config.API_BASE_URL + config.ENDPOINT.artwork, data, {
       headers: new HttpHeaders({
-        'user': localStorage.getItem('org')
+        'user': localStorage.getItem('org'),
+        'username': JSON.parse(localStorage.getItem('user')).firstname+" "+JSON.parse(localStorage.getItem('user')).lastname
       })
     })
       .toPromise()
@@ -95,7 +96,8 @@ export class CrudService {
   requestConditionReport(data: any) {
     return this.http.post(config.API_BASE_URL + config.ENDPOINT.requestConditionReport, data, {
       headers: new HttpHeaders({
-        'user': localStorage.getItem('org')
+        'user': localStorage.getItem('org'),
+        'username': JSON.parse(localStorage.getItem('user')).firstname+" "+JSON.parse(localStorage.getItem('user')).lastname
       })
     })
       .toPromise()
@@ -111,7 +113,8 @@ export class CrudService {
   conditionReportRequests() {
     return this.http.get(config.API_BASE_URL + config.ENDPOINT.requestConditionReport, {
       headers: new HttpHeaders({
-        'user': localStorage.getItem('org')
+        'user': localStorage.getItem('org'),
+        'username': JSON.parse(localStorage.getItem('user')).firstname+" "+JSON.parse(localStorage.getItem('user')).lastname
       })
     })
       .toPromise()
@@ -126,7 +129,8 @@ export class CrudService {
   submitConditionReport(data) {
     return this.http.post(config.API_BASE_URL + config.ENDPOINT.submitConditionReport, data, {
       headers: new HttpHeaders({
-        'org': 'Art Handler'
+        'org': 'Art Handler',
+        'username': JSON.parse(localStorage.getItem('user')).firstname+" "+JSON.parse(localStorage.getItem('user')).lastname
       })
     })
       .toPromise()
@@ -142,7 +146,8 @@ export class CrudService {
   getConditionReport(crRefID: string) {
     return this.http.get(config.API_BASE_URL + config.ENDPOINT.getConditionReport + crRefID, {
       headers: new HttpHeaders({
-        'user': localStorage.getItem('org')
+        'user': localStorage.getItem('org'),
+        'username': JSON.parse(localStorage.getItem('user')).firstname+" "+JSON.parse(localStorage.getItem('user')).lastname
       })
     })
       .toPromise()
@@ -157,7 +162,8 @@ export class CrudService {
   requestOwnership(data: any) {
     return this.http.post(config.API_BASE_URL + config.ENDPOINT.requestOwnership, data, {
       headers: new HttpHeaders({
-        'user': localStorage.getItem('org')
+        'user': localStorage.getItem('org'),
+        'username': JSON.parse(localStorage.getItem('user')).firstname+" "+JSON.parse(localStorage.getItem('user')).lastname
       })
     })
       .toPromise()
@@ -173,7 +179,8 @@ export class CrudService {
   actionOnOwnershipRequest(data: any) {
     return this.http.post(config.API_BASE_URL + config.ENDPOINT.ownershipAction, data, {
       headers: new HttpHeaders({
-        'user': localStorage.getItem('org')
+        'user': localStorage.getItem('org'),
+        'username': JSON.parse(localStorage.getItem('user')).firstname+" "+JSON.parse(localStorage.getItem('user')).lastname
       })
     })
       .toPromise()
@@ -189,7 +196,8 @@ export class CrudService {
   updateTransportation(data: any) {
     return this.http.post(config.API_BASE_URL + config.ENDPOINT.updateTransportation, data, {
       headers: new HttpHeaders({
-        'user': localStorage.getItem('org')
+        'user': localStorage.getItem('org'),
+        'username': JSON.parse(localStorage.getItem('user')).firstname+" "+JSON.parse(localStorage.getItem('user')).lastname
       })
     })
       .toPromise()
@@ -205,7 +213,8 @@ export class CrudService {
   crossCheckConditionReport(data) {
     return this.http.post(config.API_BASE_URL + config.ENDPOINT.crossCheckCr, data, {
       headers: new HttpHeaders({
-        'user': localStorage.getItem('org')
+        'user': localStorage.getItem('org'),
+        'username': JSON.parse(localStorage.getItem('user')).firstname+" "+JSON.parse(localStorage.getItem('user')).lastname
       })
     })
       .toPromise()
@@ -305,7 +314,8 @@ export class CrudService {
   transportationRequest(artworkId: string) {
     return this.http.post(config.API_BASE_URL + config.ENDPOINT.transportationRequest, {artworkID: artworkId}, {
       headers: new HttpHeaders({
-        'user': localStorage.getItem('org')
+        'user': localStorage.getItem('org'),
+        'username': JSON.parse(localStorage.getItem('user')).firstname+" "+JSON.parse(localStorage.getItem('user')).lastname
       })
     })
       .toPromise()
@@ -320,7 +330,8 @@ export class CrudService {
   transportationUpdate(data: any) {
     return this.http.post(config.API_BASE_URL + config.ENDPOINT.transportationUpdate, data, {
       headers: new HttpHeaders({
-        'user': localStorage.getItem('org')
+        'user': localStorage.getItem('org'),
+        'username': JSON.parse(localStorage.getItem('user')).firstname+" "+JSON.parse(localStorage.getItem('user')).lastname
       })
     })
       .toPromise()
@@ -335,7 +346,8 @@ export class CrudService {
   receiveArtwork(artworkID: string) {
     return this.http.post(config.API_BASE_URL + config.ENDPOINT.receiveArtwork, {'artworkID': artworkID}, {
       headers: new HttpHeaders({
-        'user': localStorage.getItem('org')
+        'user': localStorage.getItem('org'),
+        'username': JSON.parse(localStorage.getItem('user')).firstname+" "+JSON.parse(localStorage.getItem('user')).lastname
       })
     })
       .toPromise()
@@ -350,7 +362,8 @@ export class CrudService {
   deliverArtwork(data: any){
     return this.http.post(config.API_BASE_URL + config.ENDPOINT.deliverArtwork, data, {
       headers: new HttpHeaders({
-        'user': localStorage.getItem('org')
+        'user': localStorage.getItem('org'),
+        'username': JSON.parse(localStorage.getItem('user')).firstname+" "+JSON.parse(localStorage.getItem('user')).lastname
       })
     })
       .toPromise()

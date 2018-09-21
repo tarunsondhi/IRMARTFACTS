@@ -265,6 +265,7 @@ export class HomeComponent implements OnInit {
       console.log('Fetch manager dashboard');
       this.getManagerDash();
     }
+    this.showTransactions=false;
   }
 
   getArtistDash(){
