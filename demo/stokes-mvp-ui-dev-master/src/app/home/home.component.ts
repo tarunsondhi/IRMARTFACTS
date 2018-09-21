@@ -474,6 +474,7 @@ export class HomeComponent implements OnInit {
   }
 
   configDetails(artwork: any) {
+	this.showTransactions=false;
     this.model = artwork;
     console.log("user:", this.user);
     console.log("model:", this.model);
