@@ -47,7 +47,7 @@
           <div class="row">
             <div *ngFor="let a of artwork.tab3" class="image-block col-sm-3 img-tiles"
                  [style.background-image]="getStyle(a.image)" (click)="configDetails(a)">
-              <p> {{a.title}} <br> {{a.artistName}} <br> {{a.artworkID}} </p>
+              <p> {{a.title}} <br> {{a.artistName}} <br> {{a.artworkID}}  </p>
             </div>
           </div>
         </div>
@@ -201,9 +201,14 @@
                 </div>
               </div>
               <div class="row">
-                <div class="" [style.background-image]="getStyle(model.image)"
+                <div class="container-download">
+                <div class="img" [style.background-image]="getStyle(model.image)"
                      style="background-repeat: no-repeat; background-size: 100% 100%;height: 600px; width: 95%"></div>
-              </div>
+              
+                      <div class="overlay"></div>
+                     <div class="btn1"><a (click)="download(model.orginialImagePath)"> <i class="fa fa-download" style="font-size:30px;"></i> </a> </div>
+               </div>
+            </div>
             </div>
             <div class="col-4" style="margin-left: 30px">
               <div class="row" style="border-bottom: darkgray solid 1px;padding-bottom: 30px; width:700px">
@@ -461,6 +466,48 @@
               </div>
             </div>
           </div>
+          <div class="row" style="width:100%;">
+          <div class="col">
+          <div class="row" style="padding: 30px 0 30px 0;">
+              <a class="btn" (click)="getTransactionsByArtworkId(model.artworkID)"><h5 style="width: 100%"><i class="fa fa-plus-circle" *ngIf="showTransactions==false"></i><i class="fa fa-minus-circle" *ngIf="showTransactions==true"></i>Blockchain Transactions</h5></a>
+            </div>
+            <div class="row" *ngIf="showTransactions==true">
+              <div class="mat-table-container mat-elevation-z8" >
+                  <mat-table #table [dataSource]="transactions" matSort class=" div-head-row">
+                    
+                      <ng-container matColumnDef="transactionID">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header class="div-cell"> Transaction Id  </mat-header-cell>
+                          <mat-cell *matCellDef="let element"> {{element.transactionID}} </mat-cell>
+                        </ng-container>
+    
+                    <ng-container matColumnDef="transactionType">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="div-cell">Transaction Type </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.transactionType}} </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="blockNo">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header class="div-cell"> Block No. </mat-header-cell>
+                          <mat-cell *matCellDef="let element"> {{element.blockNo}} </mat-cell>
+                        </ng-container>
+                   
+                      <ng-container matColumnDef="transactionTimestamp">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header class="div-cell"> Date </mat-header-cell>
+                          <mat-cell *matCellDef="let element"> {{element.transactionTimestamp}} </mat-cell>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="user">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header class="div-cell"> User  </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.user}} </mat-cell>
+                          </ng-container>
+                       
+                    <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayColumns;"></mat-row>
+                  </mat-table>
+                </div>
+              </div>
+              </div>
+            </div>
+
         </div>
       </div>
     </div>

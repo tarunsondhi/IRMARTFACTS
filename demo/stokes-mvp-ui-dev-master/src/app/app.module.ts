@@ -10,13 +10,15 @@ import { UtilService } from './services/util.service';
 import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule} from "@angular/common/http";
+import {HttpModule} from "@angular/http";
 import {ModalComponent} from "./modal/modal.component";
 import {ModalService} from "./services/modal.service";
 import {AlertService} from "./services/alert.service";
 import {AlertComponent} from "./alert/alert.component";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {TabViewModule} from "primeng/primeng";
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatPaginatorModule, MatSortModule, MatTableModule, MatInputModule, MatButtonModule, MatCheckboxModule } from '@angular/material';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,8 +32,14 @@ import {TabViewModule} from "primeng/primeng";
     RouterModule.forRoot(AppRoutes),
     FormsModule,
     HttpClientModule,
+    HttpModule,
     NgxSpinnerModule,
-    TabViewModule
+    TabViewModule,
+    MatTableModule, 
+    MatInputModule,
+    MatPaginatorModule, 
+    MatSortModule,
+    BrowserAnimationsModule
   ],
   providers: [
     AuthGuard,

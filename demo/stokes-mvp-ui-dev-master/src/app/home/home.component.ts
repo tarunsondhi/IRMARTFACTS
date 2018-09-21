@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {ModalService} from "../services/modal.service";
 import {AlertService} from "../services/alert.service";
 import {Router} from "@angular/router";
@@ -7,7 +7,9 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {CrudService} from "../services/crud.service";
 import {NgxSpinnerService} from "ngx-spinner";
 import {config} from "../../config/config.js";
-
+import { saveAs } from 'file-saver/FileSaver';
+import { PageEvent, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { DataSource } from '@angular/cdk/table';
 declare var $: any;
 
 @Component({
@@ -17,7 +19,11 @@ declare var $: any;
 })
 
 export class HomeComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  displayColumns=["transactionID","transactionType","blockNo","transactionTimestamp","user"];
 
+  pageEvent: PageEvent;
   user: any = {};
   model: any = {};
   artwork: any = [];
@@ -28,6 +34,7 @@ export class HomeComponent implements OnInit {
   showArtistName: boolean = false;
   upload: any = {};
   imgSrc: string = "";
+  imageFile : File = null;
   years: any[] = config.dropdowns.years;
   selectedYear: any = config.dropdowns.selectedYears;
   artworkNameInput: string = "";
@@ -60,7 +67,9 @@ export class HomeComponent implements OnInit {
   historyCounter: number = 0;
   status: any = {};
   deliveredReq: any = {};
-
+  imageAbsolutePath: string = "";
+  transactions: any ;
+  showTransactions: boolean = false;
   constructor(private modalService: ModalService,
               private alertService: AlertService,
               private router: Router,
@@ -72,21 +81,30 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem("user"));
+    console.log('Logged in user', this.user);
+
     if (!this.user) {
       this.router.navigate(["login"]);
     } else {
       this.loadHeaders();
       this.setTabStyling();
       this.displayedRole = this.user.roles[0];
+      console.log('Logged in user role', this.displayedRole);
       if (this.verifyRole(config.artist.roles)) {
+        console.log('Artist user role');
+
         this.firstTab = config.artist.tabs.first;
         this.secondTab = config.artist.tabs.second;
         this.thirdTab = config.artist.tabs.third;
       } else if (this.verifyRole(config.handler.roles)) {
+        console.log('Handler user role');
+
         this.firstTab = config.handler.tabs.first;
         this.secondTab = config.handler.tabs.second;
         this.thirdTab = config.handler.tabs.third;
       } else {
+        console.log('Collector user role');
+
         this.firstTab = config.collector.tabs.first;
         this.secondTab = config.collector.tabs.second;
         this.thirdTab = config.collector.tabs.third;
@@ -103,7 +121,7 @@ export class HomeComponent implements OnInit {
     this.modalService.close(id);
   }
 
-  onSubmit(form: any) {
+  onSubmit_Orginial(form: any) {
     new Promise(async (resolve, reject) => {
       await this.crudService.createArtWork({
         artistName: form.controls.artistName.value,
@@ -128,6 +146,31 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  onSubmit(form: any) {
+    new Promise(async (resolve, reject) => {
+      let formData = new FormData();
+
+        formData.append('artistName', form.controls.artistName.value);
+        formData.append('title', form.controls.artworkTitle.value);
+        formData.append('dimensions', form.controls.height.value + 'x' + form.controls.width.value + 'x' + form.controls.depth.value);
+        formData.append('edition', form.controls.edition.value);
+        formData.append('medium', form.controls.medium.value);
+        formData.append('noOfPieces', form.controls.noOfPieces.value);
+        formData.append('weight', form.controls.weight.value);
+        formData.append('year', form.controls.year.value);
+        formData.append('image', this.imageFile);
+        formData.append('creator', "com.stokes.network.ArtStudio#1001");
+
+      await this.crudService.createArtWork(formData).then((res) => {
+        this.upload = res;
+        resolve();
+      });
+    }).then(() => {
+      this.loadDashboardImages();
+    }).then(() => {
+      this.toggleUploadArtwork = false;
+    });
+  }
   logout() {
     localStorage.setItem("user", null);
     this.router.navigate(["login"]);
@@ -147,7 +190,8 @@ export class HomeComponent implements OnInit {
       };
       reader.readAsDataURL(event.target.files[0]);
     }).then((imgSrc) => {
-      this.imgSrc = JSON.stringify(imgSrc);
+      this.imageFile=event.target.files[0];
+      //this.imgSrc = JSON.stringify(imgSrc); Commented to test multer API
     });
   }
 
@@ -212,29 +256,36 @@ export class HomeComponent implements OnInit {
   loadDashboardImages(){
     this.artwork = {tab1: [], tab2: [], tab3: [],};
     if (this.verifyRole(config.artist.roles)) {
+      console.log('Fetch artist dashboard');
       this.getArtistDash();
     } else if (this.verifyRole(config.handler.roles)) {
+      console.log('Fetch handler dashboard');
       this.getHandlerDash();
     } else {
+      console.log('Fetch manager dashboard');
       this.getManagerDash();
     }
   }
 
   getArtistDash(){
     this.spinner.show();
+    
     this.crudService.getArtistDash().then(async (artwork: any) => {
+      console.log("Data for myCollection ", artwork.myCollection);
       for (let a in artwork.myCollection) {
         await this.crudService.getArtworkById(artwork.myCollection[a].artworkID).then((artwork) => {
           this.artwork.tab1.push(artwork);
         });
       }
 
+      console.log("Data for negotiating ", artwork.negotiating);
       for (let a in artwork.negotiating) {
         await this.crudService.getArtworkById(artwork.negotiating[a].artworkID).then((artwork) => {
           this.artwork.tab2.push(artwork);
         });
       }
-
+      console.log("Data for sold ", artwork.negotiating);
+      
       for (let a in artwork.sold) {
         await this.crudService.getArtworkById(artwork.sold[a].artworkID).then((artwork) => {
           this.artwork.tab3.push(artwork);
@@ -671,6 +722,24 @@ export class HomeComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  download(imagePath: string){
+    console.log("imagePath :"+imagePath);
+  this.crudService.downloadArtwork({
+        artPath: imagePath
+      })
+  }
+
+  getTransactionsByArtworkId(artworkId: string){
+    if(this.showTransactions==false){
+    this.crudService.getAllTransactionsByArtworkId(artworkId).then((transactions) => {
+      console.log(transactions);
+      this.transactions = transactions;
+      this.showTransactions=true;
+    });
+  }else
+    this.showTransactions=false;
   }
 
 }

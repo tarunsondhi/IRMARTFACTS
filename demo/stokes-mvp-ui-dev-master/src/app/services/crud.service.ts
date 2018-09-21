@@ -1,13 +1,16 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {RequestOptions, ResponseContentType, Http} from "@angular/http";
 import {UtilService} from "./util.service";
 import {NgxSpinnerService} from "ngx-spinner";
 import {config} from "../../config/config.js";
+import { saveAs } from 'file-saver/FileSaver';
 
 @Injectable()
 export class CrudService {
 
   constructor(private http: HttpClient,
+              private http_: Http,
               private utilService: UtilService,
               private spinner: NgxSpinnerService) {
   }
@@ -121,7 +124,6 @@ export class CrudService {
   }
 
   submitConditionReport(data) {
-    
     return this.http.post(config.API_BASE_URL + config.ENDPOINT.submitConditionReport, data, {
       headers: new HttpHeaders({
         'org': 'Art Handler'
@@ -129,7 +131,6 @@ export class CrudService {
     })
       .toPromise()
       .then(res => {
-        
         return res;
       }).catch(err => {
         this.spinner.hide();
@@ -209,7 +210,6 @@ export class CrudService {
     })
       .toPromise()
       .then(res => {
-        
         return res;
       }).catch(err => {
         this.spinner.hide();
@@ -303,7 +303,11 @@ export class CrudService {
   }
 
   transportationRequest(artworkId: string) {
-    return this.http.post(config.API_BASE_URL + config.ENDPOINT.transportationRequest, {artworkID: artworkId})
+    return this.http.post(config.API_BASE_URL + config.ENDPOINT.transportationRequest, {artworkID: artworkId}, {
+      headers: new HttpHeaders({
+        'user': localStorage.getItem('org')
+      })
+    })
       .toPromise()
       .then(res => {
         return res;
@@ -314,7 +318,11 @@ export class CrudService {
   }
 
   transportationUpdate(data: any) {
-    return this.http.post(config.API_BASE_URL + config.ENDPOINT.transportationUpdate, data)
+    return this.http.post(config.API_BASE_URL + config.ENDPOINT.transportationUpdate, data, {
+      headers: new HttpHeaders({
+        'user': localStorage.getItem('org')
+      })
+    })
       .toPromise()
       .then(res => {
         return res;
@@ -353,5 +361,34 @@ export class CrudService {
         return [];
       });
   }
-}
 
+  downloadArtwork(data: any){
+    const headers = new Headers();
+    let options = new RequestOptions({  responseType: ResponseContentType.Blob });
+    console.log('image path ----- '+config.API_BASE_URL + config.ENDPOINT.downloadArtwork)
+    return this.http_.post(config.API_BASE_URL + config.ENDPOINT.downloadArtwork, data , options)
+      .subscribe(res => {
+        console.log(res);
+        const fileNameArr = data.artPath.split("\\");
+        const fileName = fileNameArr[fileNameArr.length-1];
+        const blob = new Blob([res.blob()],{type: "application/octet-stream"});
+        saveAs(blob, fileName);
+      });
+  }
+
+  getAllTransactionsByArtworkId(data: string) {
+    return this.http.get(config.API_BASE_URL + config.ENDPOINT.transactions +  data, {
+      headers: new HttpHeaders({
+        'user': localStorage.getItem('org')
+      })
+    })
+      .toPromise()
+      .then(res => {
+        return res;
+      }).catch(err => {
+        this.spinner.hide();
+        console.error(err);
+        return [];
+      });
+  }
+}

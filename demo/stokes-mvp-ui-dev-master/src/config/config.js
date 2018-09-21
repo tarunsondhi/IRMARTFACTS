@@ -21,8 +21,11 @@ export const config = {
     transportationRequest: 'TransportationRequest/',
     transportationUpdate: 'TransportationUpdate/',
     receiveArtwork: 'ReceiveArtwork/',
-    deliverArtwork: 'DeliverArtwork/'
+    deliverArtwork: 'DeliverArtwork/',
+    downloadArtwork: 'downloadArtwork/',
+    transactions: 'transactions/'
   },
+
   STATUSES: {
     ACCEPTED: 'ACCEPTED',
     DELIVERED: 'DELIVERED',
@@ -37,25 +40,29 @@ export const config = {
       firstName: 'Alicia',
       lastName: 'Boyd',
       username: 'alicia.boyd@artist.com',
-      password: 'aboyd'
+      password: 'aboyd',
+      org: 'Artist Representative'
     },
     collector: {
       firstName: 'Carlton',
       lastName: 'Luna',
       username: 'carlton.luna@collector.com',
-      password: 'cluna'
+      password: 'cluna',
+      org: 'Collector'
     },
     manager: {
       firstName: 'Kevin',
       lastName: 'Collins',
       username: 'kevin.collins@manager.com',
-      password: 'kcollins'
+      password: 'kcollins',
+      org: 'Collection Manager'
     },
     handler: {
       firstName: 'Jan',
       lastName: 'Nash',
       username: 'jan.nash@handler.com',
-      password: 'jnash'
+      password: 'jnash',
+      org: 'Art Handler'
     }
   },
   artist: {
@@ -116,4 +123,5 @@ export const config = {
       {id: 2018, label: "2018"}
     ]
   },
+
 };
