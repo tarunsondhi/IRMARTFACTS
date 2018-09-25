@@ -492,7 +492,7 @@
                    
                       <ng-container matColumnDef="transactionTimestamp">
                           <mat-header-cell *matHeaderCellDef mat-sort-header class="div-cell"> Date </mat-header-cell>
-                          <mat-cell *matCellDef="let element"> {{element.transactionTimestamp}} </mat-cell>
+                          <mat-cell *matCellDef="let element"> {{element.transactionTimestamp | date: 'MMM dd, yyy, hh:mm:ss a'}} </mat-cell>
                         </ng-container>
                         
                         <ng-container matColumnDef="user">
