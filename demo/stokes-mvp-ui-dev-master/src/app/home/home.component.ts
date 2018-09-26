@@ -9,7 +9,6 @@ import {NgxSpinnerService} from "ngx-spinner";
 import {config} from "../../config/config.js";
 import { saveAs } from 'file-saver/FileSaver';
 import { PageEvent, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { DataSource } from '@angular/cdk/table';
 declare var $: any;
 
 @Component({
@@ -474,7 +473,7 @@ export class HomeComponent implements OnInit {
   }
 
   configDetails(artwork: any) {
-	this.showTransactions=false;
+    this.showTransactions=false;
     this.model = artwork;
     console.log("user:", this.user);
     console.log("model:", this.model);
@@ -734,10 +733,15 @@ export class HomeComponent implements OnInit {
   }
 
   getTransactionsByArtworkId(artworkId: string){
+    let transactionsArry = [];
     if(this.showTransactions==false){
-    this.crudService.getAllTransactionsByArtworkId(artworkId).then((transactions) => {
+    this.crudService.getAllTransactionsByArtworkId(artworkId).then((transactions: any) => {
       console.log(transactions);
-      this.transactions = transactions;
+      transactionsArry=transactions;
+      this.transactions = new MatTableDataSource(transactionsArry.sort((a, b) => b.blockNo - a.blockNo));
+      
+      //this.transactions.paginator = this.paginator;
+      //this.transactions.sort = this.sort;
       this.showTransactions=true;
     });
   }else
